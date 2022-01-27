@@ -1,3 +1,8 @@
+import csv
+import json
+import os
+
+
 class SimilarityTable:
     drugs_similarities = {}
     less_value = 0.0
@@ -28,6 +33,32 @@ class SimilarityTable:
                     self.less_value = sorted_similarities[i][1]
 
         self.drugs_similarities = new_drugs_similarities
+
+    def save_similarity_table(self):
+        if not os.path.isfile('similarities_tables.csv'):
+            with open('similarities_tables.csv', mode='w') as similarities_file:
+                similarities_writer = csv.writer(similarities_file, delimiter=';', quotechar='"',
+                                                 quoting=csv.QUOTE_MINIMAL)
+                similarities_writer.writerow(['compound-id', 'similarity-table'])
+                similarities_writer.writerow([self.drug_id, json.dumps(self.drugs_similarities)])
+        else:
+            with open('similarities_tables.csv', mode='a', newline='') as similarities_file:
+                similarities_writer = csv.writer(similarities_file, delimiter=';', quotechar='"',
+                                                 quoting=csv.QUOTE_MINIMAL)
+                similarities_writer.writerow([self.drug_id, json.dumps(self.drugs_similarities)])
+
+    @staticmethod
+    def load_similarity_table(drug_id):
+        with open('similarities_tables.csv') as similarities_file:
+            similarities_reader = csv.DictReader(similarities_file, delimiter=';')
+            drug_raw = [row for row in similarities_reader if row['compound-id'] == str(drug_id)]
+            drug_id = drug_raw[0]['compound-id']
+            drug_similarities = json.loads(drug_raw[0]['similarity-table'])
+
+            drug_loaded = SimilarityTable(drug_id)
+            drug_loaded.drugs_similarities = drug_similarities
+
+            return drug_loaded
 
     def print_dictionary(self):
         for key, value in self.drugs_similarities.items():
