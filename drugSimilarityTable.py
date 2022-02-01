@@ -1,6 +1,6 @@
 '''
-Tabla de similaridad
-Utilizada para la creacion y manejo de tablas de similaridad de compuestos
+Similarity Table
+Used to create and manage compound similarity tables
 '''
 import csv
 import json
@@ -9,15 +9,15 @@ import os
 
 class SimilarityTable:
     """ 
-    Clase SimilarityTable
+    Class SimilarityTable
 
-    Esta clase permitira a un compuesto calcular el top n de compuestos
-    que tienen un mayor valor de similaridad con el compuesto en cuestion.
+    This class allow a compound to calculate the N top of compounds with 
+    the higher similarity value with the compound in question.
     
-    Atributos
-    - drugs_similarities:   Diccionario que almacenara el top de compuestos y su similaridad
-    - less_value:           Valor perteneciente al menor valor del top
-    - num_elements:         Numero de compuestos que se considerara para el top de similaridad
+    Attributes
+    - drugs_similarities:   Dictionary that store the top of compounds and their similarity
+    - less_value:           Lowest value of the top
+    - num_elements:         Number of compounds considered to the top of similarity
     """
     drugs_similarities = {}
     less_value = 0.0
@@ -25,22 +25,21 @@ class SimilarityTable:
 
     def __init__(self, drug_id):
         """
-        __init__: iniciador de la clase SimilarityTable
+        __init__: SimilarityTable class initiator
 
         Parametros:
-        - drug_id: id del compuesto
-
+        - drug_id: compound id
         """
         self.drug_id = drug_id
 
     def add_item(self, item_id, item_value):
         """
         add_item:   
-            Añade un item (compuesto) al diccionario que maneja el top de similaridad del compuesto actual
-            Almacena el id del compuesto y el valor de similaridad para este
-        Parametros:
-        - item_id: id del compuesto a añadir
-        - item_value: valor de similaridad para el compuesto añadido
+            Add an item (compound) to the dictionary that handles the top similarity of the current compound
+            Stores the id of the compound and the similarity value
+        Parameters:
+        - item_id: id of the compound to add
+        - item_value: similarity value of the compound to add
         """
         if len(self.drugs_similarities) < self.num_elements or item_value > self.less_value:
             self.drugs_similarities.update({item_id: item_value})
@@ -49,7 +48,7 @@ class SimilarityTable:
     def order_dictionary(self):
         """
         order_dictionary:   
-            Ordena de mayor a menor similaridad los compuestos que se encuentran en el diccionario
+            The dictionary compounds are ordered from greatest to least similarity 
         """
         sorted_similarities = sorted(self.drugs_similarities.items(), key=lambda x: x[1], reverse=True)
         new_drugs_similarities = {}
@@ -71,9 +70,11 @@ class SimilarityTable:
     def save_similarity_table(self):
         """
         save_similarity_table:   
-            Guarda en un archivo csv el diccionario de similaridad del compuesto
-            En caso de que no exista el archivo se lo creara uno nuevo y guardara el diccionario de similaridad
-            En caso de que exista se añadiran los nuevos valores sin necesidad de borrar los anteriores 
+        
+            Saves in a csv file the similarity dictionary of the compound
+            If the file does not exist, it is created and then the similarity dictionary is saved
+            If the file exist, the new values will be added
+            
         """
         path_similarities = 'similarities_tables.csv'
         if not os.path.isfile(path_similarities):
@@ -91,14 +92,16 @@ class SimilarityTable:
     @staticmethod
     def load_similarity_table(drug_id):
         """
-        load_similarity_table:   
-            Carga el archivo que contiene a todos los diccionarios de similaridades y retorna
-            unicamente el diccionario del compuesto que se especifica
-        Parametros:
-        - drug_id: id del compuesto del que se desea obtener su diccionario.
+        load_similarity_table:  
+            
+            Load the file containing all similarity dictionaries and returns the dictionary
+            from the compound needed
+            
+        Parameters:
+        - drug_id: id of the compound whose dictionary is obtained
 
         Return:
-        - Retorna el diccionario del compuesto especificado 
+        - Returns the compound dictionary of the compound specified
         """
         path_similarities = 'similarities_tables.csv'
         with open(path_similarities) as similarities_file:
@@ -115,8 +118,8 @@ class SimilarityTable:
     def print_dictionary(self):
         """
         print_dictionary:   
-            Imprime el diccionario de similaridad del compuesto
-            Se imprime su identificador y el valor de similaridad
+            Prints the similarity dictionary, it prints the identifier and the similarity value
+            
         """
         for key, value in self.drugs_similarities.items():
             print(key, value)
