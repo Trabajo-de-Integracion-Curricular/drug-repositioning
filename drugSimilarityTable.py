@@ -1,6 +1,6 @@
 '''
 Similarity Table
-Used to create and manage compound similarity tables
+Create and manage compound similarity tables
 '''
 import csv
 import json
@@ -11,7 +11,7 @@ class SimilarityTable:
     """ 
     Class SimilarityTable
 
-    This class allow a compound to calculate the N top of compounds with 
+    This class allows a compound to calculate the N top of compounds with 
     the higher similarity value with the compound in question.
     
     Attributes
@@ -35,7 +35,7 @@ class SimilarityTable:
     def add_item(self, item_id, item_value):
         """
         add_item:   
-            Add an item (compound) to the dictionary that handles the top similarity of the current compound
+            Adds an item (compound) to the dictionary that handles the top similarity of the current compound
             Stores the id of the compound and the similarity value
         Parameters:
         - item_id: id of the compound to add
@@ -94,7 +94,7 @@ class SimilarityTable:
         """
         load_similarity_table:  
             
-            Load the file containing all similarity dictionaries and returns the dictionary
+            Loads the file containing all similarity dictionaries and returns the dictionary
             from the compound needed
             
         Parameters:
