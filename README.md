@@ -1,2 +1,1 @@
-# Tesis
-## Juan Pablo Rodriguez
+# Trabajo de integracion curricular
