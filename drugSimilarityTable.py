@@ -71,22 +71,22 @@ class SimilarityTable:
 
         self.drugs_similarities = new_drugs_similarities
 
-    def save_similarity_table(self):
+    def save_similarity_table(self, radius):
         """
         save_similarity_table:
             Saves in a csv file the similarity dictionary of the drug
             If the file does not exist, it is created and then the similarity dictionary is saved
             If the file exist, the new values will be added
         """
-        path_similarities = 'similarities_tables.csv'
-        data_to_save = {'compound-id': [self.drug_id], 'similarity-table': [json.dumps(self.drugs_similarities)]}
+        path_similarities = 'similarities_tables_radius_{}.csv'.format(radius)
+        data_to_save = {'sanitize-id': [self.drug_id], 'similarity-table': [json.dumps(self.drugs_similarities)]}
 
         similarities_df = pd.DataFrame(data_to_save)
         similarities_df.to_csv(path_similarities, sep=';', mode='a', index=False,
                                header=not os.path.exists(path_similarities), encoding='utf-8')
 
     @staticmethod
-    def load_similarity_table(drug_id):
+    def load_similarity_table(drug_id, radius):
         """
         load_similarity_table:
             Loads the file containing all similarity dictionaries and returns the dictionary
@@ -98,9 +98,9 @@ class SimilarityTable:
         Return:
         - Returns the Similarity Table of the compound specified
         """
-        path_similarities = 'similarities_tables.csv'
+        path_similarities = 'similarities_tables_radius_{}.csv'.format(radius)
         similarities_tables = pd.read_csv(path_similarities, delimiter=';')
-        similarities_tables.set_index("compound-id", inplace=True)
+        similarities_tables.set_index("sanitize-id", inplace=True)
 
         drug_loaded = SimilarityTable(drug_id)
         drug_loaded.drugs_similarities = json.loads(similarities_tables.loc[drug_id]['similarity-table'])
