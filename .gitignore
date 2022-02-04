@@ -153,8 +153,9 @@ crashlytics-build.properties
 fabric.properties
 
 # CSV and DB Files
-*.csv
 *.xml
 *.tar.gz
 *.zip
 chembl_29_sqlite/
+chembl_27_sqlite/
+sanitize_chunks/

@@ -78,7 +78,7 @@ class SimilarityTable:
             If the file does not exist, it is created and then the similarity dictionary is saved
             If the file exist, the new values will be added
         """
-        path_similarities = 'similarities_tables_radius_{}.csv'.format(radius)
+        path_similarities = '../data/similarities_tables_radius_{}.csv'.format(radius)
         data_to_save = {'sanitize-id': [self.drug_id], 'similarity-table': [json.dumps(self.drugs_similarities)]}
 
         similarities_df = pd.DataFrame(data_to_save)
@@ -98,7 +98,7 @@ class SimilarityTable:
         Return:
         - Returns the Similarity Table of the compound specified
         """
-        path_similarities = 'similarities_tables_radius_{}.csv'.format(radius)
+        path_similarities = '../data/similarities_tables_radius_{}.csv'.format(radius)
         similarities_tables = pd.read_csv(path_similarities, delimiter=';')
         similarities_tables.set_index("sanitize-id", inplace=True)
 
